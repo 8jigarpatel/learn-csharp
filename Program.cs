@@ -4,7 +4,10 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        Arrays();
+        if (false)
+        {
+            Arrays(); 
+        }
         Console.WriteLine("END");
     }
 
