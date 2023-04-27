@@ -115,6 +115,14 @@ internal class Program
         Console.WriteLine(Array.IndexOf(myArray, "Three", 6, 5)); // 10
         Console.WriteLine(Array.LastIndexOf(myArray, "Three")); // 13
 
+        // For element's condition based search (Find/FindLast - to retrieve element, FindIndex/FindLastIndex - to retrieve index of element)
+        Console.WriteLine(Array.FindIndex(myArray, x => x.Contains("ee"))); // 2
+        Console.WriteLine(Array.FindLastIndex(myArray, x => x.Contains("wo"))); // 12
+        Console.WriteLine(Array.Find(myArray, x => x.Contains("ee"))); // Three
+        Console.WriteLine(Array.FindLast(myArray, x => x.Contains("wo"))); // Two
+
+        Console.WriteLine(string.Join(",", Array.FindAll(myArray, x => x.Contains("wo")))); // all 'Two's
+
         // Sort/Reverse
         int[] myNums = { 5, 4, 3, 2, 1 };
         Array.Sort(myNums);
