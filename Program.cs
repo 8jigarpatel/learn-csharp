@@ -2,13 +2,43 @@
 
 internal class Program
 {
+    enum Run
+    {
+        Undefined,
+        Operators,
+        Arrays
+    }
+
+    private static Run run = Run.Operators;
+
     private static void Main(string[] args)
     {
-        if (false)
+        switch (run)
         {
-            Arrays(); 
-        }
+            case Run.Operators:
+                Operators();
+                break;
+            case Run.Arrays:
+                Arrays();
+                break;
+            default:
+                Console.WriteLine("Please update `run` parameter.");
+                break;
+        };
         Console.WriteLine("END");
+    }
+
+    private static void Operators()
+    {
+        int numerator = 25;
+        int denominator = 3;
+
+        int quotient = numerator / denominator;
+        int remainder = numerator % denominator;
+
+        Console.WriteLine("numerator: {0}, and denominator: {1}", numerator, denominator);
+        Console.WriteLine("quotient: {0}", quotient);
+        Console.WriteLine("remainder: {0}", remainder);
     }
 
     private static void Arrays()
