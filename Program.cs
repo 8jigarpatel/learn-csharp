@@ -7,10 +7,13 @@ internal class Program
         Undefined,
         Arrays,
         Operators,
-        TypeConversions
+        TypeConversions,
+        ConditionalStatements,
+        Loops,
+        Methods
     }
 
-    private static Run run = Run.TypeConversions;
+    private static Run run = Run.ConditionalStatements;
 
     private static void Main(string[] args)
     {
@@ -24,6 +27,15 @@ internal class Program
                 break;
             case Run.TypeConversions:
                 TypeConversions();
+                break;
+            case Run.ConditionalStatements:
+                ConditionalStatements();
+                break;
+            case Run.Loops:
+                Loops();
+                break;
+            case Run.Methods:
+                Methods();
                 break;
             default:
                 Console.WriteLine("Please update `run` parameter.");
@@ -175,7 +187,7 @@ internal class Program
         // e.g., from int to float
         int i1 = 100;
         float f1 = i1; // 100
-        Console.WriteLine(f1); 
+        Console.WriteLine(f1);
 
         // Explicit - two conditions aren't met
         // e.g., from float to int
@@ -185,7 +197,7 @@ internal class Program
         Console.WriteLine(i2);
         int i22 = Convert.ToInt32(f2); // 556
         Console.WriteLine(i22);
-        
+
         float f3 = 555555555555;
         int i3 = (int)f3; // -2147483648
         Console.WriteLine(i3);
@@ -193,7 +205,7 @@ internal class Program
 
         string validIntStr = "999";
         int validInt = Convert.ToInt32(validIntStr); // 999
-        string invalidIntStr = "999.99";
+        // string invalidIntStr = "999.99";
         // int invalidInt = Convert.ToInt32(invalidIntStr); // System.FormatException: 'Input string was not in a correct format.'
 
         // Parse & TryParse
@@ -214,5 +226,75 @@ internal class Program
         bool tryParseSuccess3 = int.TryParse(intStr3, out int intFromStrTryParse3);
         Console.WriteLine(tryParseSuccess3); // false
         Console.WriteLine(intFromStrTryParse3); // 0
+    }
+
+    private static void ConditionalStatements()
+    {
+        // if & switch
+        int number = 10;
+        if (number == 10)
+        {
+            Console.WriteLine("Number is 10");
+        }
+        else if (number == 20)
+        {
+            Console.WriteLine("Number is 20");
+        }
+        else
+        {
+            Console.WriteLine("Number is neither 10 nor 20");
+        }
+
+        if (number == 10 || number == 20)
+        {
+            Console.WriteLine("Number is {0}", number);
+        }
+        else
+        {
+            Console.WriteLine("Number is neither 10 nor 20");
+        }
+
+        switch (number)
+        {
+            case 10:
+                Console.WriteLine("Number is 10");
+                break;
+            case 20:
+                Console.WriteLine("Number is 20");
+                break;
+            default:
+                Console.WriteLine("Number is neither 10 nor 20");
+                break;
+        }
+
+        switch (number)
+        {
+            case 10:
+            case 20:
+                Console.WriteLine("Number is {0}", number);
+                break;
+            default:
+                Console.WriteLine("Number is neither 10 nor 20");
+                break;
+        }
+
+        // && and ||
+        if (number > 0 && number <= 20)
+        {
+            Console.WriteLine("Number is greater than 0 AND less than or equal 20");
+        }
+
+        if (number < 0 || number > 100)
+        {
+            Console.WriteLine("Number is less than 0 OR greater than 100");
+        }
+    }
+
+    private static void Loops()
+    {
+    }
+
+    private static void Methods()
+    {
     }
 }
