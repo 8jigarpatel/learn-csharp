@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 internal class Program
 {
@@ -13,7 +14,7 @@ internal class Program
         Methods
     }
 
-    private static Run run = Run.ConditionalStatements;
+    private static Run run = Run.Methods;
 
     private static void Main(string[] args)
     {
@@ -292,9 +293,117 @@ internal class Program
 
     private static void Loops()
     {
+        // while
+        int whileStart = 0;
+        while (whileStart <= 10)
+        {
+            if (whileStart % 2 == 0)
+            {
+                Console.WriteLine(whileStart);
+            }
+            whileStart += 2;
+        }
+
+        // do while
+        int doWhileStart = 0;
+        do
+        {
+            if (doWhileStart % 2 == 0)
+            {
+                Console.WriteLine(doWhileStart);
+            }
+            doWhileStart += 2;
+        } while (doWhileStart <= 10);
+
+        // for
+        for (int i = 0; i <= 10; i += 2)
+        {
+            if (i % 2 == 0)
+            {
+                Console.WriteLine(i);
+            }
+        }
+
+        // foreach
+        int[] zeroToTen = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+        foreach (int number in zeroToTen)
+        {
+            if (number % 2 == 0)
+            {
+                Console.WriteLine(number);
+            }
+        }
+
+        /*
+         */
     }
 
     private static void Methods()
     {
+        int i = 10;
+        Console.WriteLine(i); // 10
+        ChangeValueOfInt(i);
+        Console.WriteLine(i); // 10
+        ChangeValueOfIntRef(ref i);
+        Console.WriteLine(i); // 20
+
+        string s = "Jigar";
+        Console.WriteLine(s); // "Jigar"
+        ChangeValueOfString(s);
+        Console.WriteLine(s); // "Jigar"
+        ChangeValueOfStringRef(ref s);
+        Console.WriteLine(s); // "Jigar Patel"
+
+        int one = 10;
+        int two = 5;
+        DoSumAndProduct(one, two, out int sum, out int product);
+        Console.WriteLine(sum); // 15
+        Console.WriteLine(product);  // 50
+
+        Console.WriteLine(SumAll(5)); // 5
+        Console.WriteLine(SumAll(5, 5)); // 10
+        Console.WriteLine(SumAll(5, 5, 5)); // 15
+    }
+
+    private static void ChangeValueOfInt(int input)
+    {
+        input = 20;
+        Console.WriteLine(input + " - from ChangeValueOfInt"); // 20
+    }
+
+    private static void ChangeValueOfIntRef(ref int input)
+    {
+        input = 20;
+        Console.WriteLine(input + " - from ChangeValueOfIntRef"); // 20
+    }
+
+    private static void ChangeValueOfString(string input)
+    {
+        input += " Patel";
+        Console.WriteLine(input + " - from ChangeValueOfString"); // "Jigar Patel"
+    }
+
+    private static void ChangeValueOfStringRef(ref string input)
+    {
+        input += " Patel";
+        Console.WriteLine(input + " - from ChangeValueOfStringRef"); // "Jigar Patel"
+    }
+
+    private static void DoSumAndProduct(int one, int two, out int sum, out int product)
+    {
+        sum = one + two;
+        product = one * two;
+    }
+
+    private static int SumAll(params int[] nums)
+    {
+        return nums.Sum();
+
+        //int sum = 0;
+        //foreach(int num in nums)
+        //{
+        //    sum += num;
+        //}
+        //return sum;
     }
 }
