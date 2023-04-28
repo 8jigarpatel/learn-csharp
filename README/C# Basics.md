@@ -1,7 +1,6 @@
 # C# Basics
 
-Overview of:
-- [TODO](#TODO)
+Overview:
 - [Built-in types](#Built-in-types)
 - [Nullable types](#Nullable-types)
 - [Type converstions](#Type-conversions)
