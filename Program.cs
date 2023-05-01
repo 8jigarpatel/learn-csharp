@@ -12,7 +12,7 @@ internal class Program
         Algorithms
     }
 
-    private static Area area = Area.DataTypes;
+    private static Area area = Area.Basics;
 
     private static void Main(string[] args)
     {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 
 namespace learn_csharp
@@ -9,13 +10,15 @@ namespace learn_csharp
         {
             Undefined,
             Operators,
+            CommonIntOperations,
+            CommonStringOperations,
             TypeConversions,
             ConditionalStatements,
             Loops,
             Methods
         }
 
-        private static SubArea subArea = SubArea.Methods;
+        private static SubArea subArea = SubArea.CommonIntOperations;
 
         public static void Start()
         {
@@ -24,6 +27,12 @@ namespace learn_csharp
             {
                 case SubArea.Operators:
                     Operators();
+                    break;
+                case SubArea.CommonIntOperations:
+                    CommonIntOperations();
+                    break;
+                case SubArea.CommonStringOperations:
+                    CommonStringOperations();
                     break;
                 case SubArea.TypeConversions:
                     TypeConversions();
@@ -57,6 +66,94 @@ namespace learn_csharp
 
             int? problems = null;
             Console.WriteLine("There are {0} problems.", problems ?? 0); // There are 0 problems
+        }
+
+        private static void CommonIntOperations()
+        {
+            Console.WriteLine($"Math.Max(10, 20): {Math.Max(10, 20)}"); // 20
+            Console.WriteLine($"Math.Max(-7.3, 5): {Math.Max(-7.3, 5)}"); // 5
+            Console.WriteLine($"Math.Min(3, 9): {Math.Min(3, 9)}"); // 3
+            Console.WriteLine($"Math.Min(-3.9, -19): {Math.Min(-3.9, -19)}"); // -19
+            Console.WriteLine("\n");
+
+            Console.WriteLine($"Math.Sqrt(25): {Math.Sqrt(25)}"); // 5
+            Console.WriteLine($"Math.Sqrt(99): {Math.Sqrt(99)}"); // 9.9498743710662
+            Console.WriteLine("\n");
+
+            Console.WriteLine($"Math.Pow(3, 2): {Math.Pow(3, 2)}"); // 9
+            Console.WriteLine($"Math.Pow(2, 3): {Math.Pow(2, 3)}"); // 8
+            Console.WriteLine("\n");
+
+            Console.WriteLine($"Math.Abs(-9.99): {Math.Abs(-9.99)}"); // 9.99
+            Console.WriteLine($"Math.Ceiling(3.14): {Math.Ceiling(3.14)}"); // 4
+            Console.WriteLine($"Math.Floor(5.9): {Math.Floor(5.9)}"); // 5
+            Console.WriteLine("\n");
+
+            Console.WriteLine($"Math.Round(2.49): {Math.Round(2.49)}"); // 2
+            Console.WriteLine($"Math.Round(2.51): {Math.Round(2.51)}"); // 3
+            Console.WriteLine($"Math.Round(2.5): {Math.Round(2.5)} // round mid-point to 'nearest even' number"); // 2 <-- round mid-point to 'nearest even' number
+            Console.WriteLine($"Math.Round(3.5): {Math.Round(3.5)} // round mid-point to 'nearest even' number"); // 4 <-- round mid-point to 'nearest even' number
+        }
+
+        private static void CommonStringOperations()
+        {
+            string hello = "hello";
+            Console.WriteLine($"hello: {hello}"); // hello
+            Console.WriteLine($"hello.Length: {hello.Length}"); // 5
+            Console.WriteLine($"hello[0]: {hello[0]}"); // h
+            Console.WriteLine($"hello.Substring(1): {hello.Substring(1)} // startIndex"); // ello
+            Console.WriteLine($"hello.Substring(2, 3): {hello.Substring(2, 3)} // startIndex, length"); // llo
+            Console.WriteLine($"string.Join(\"\",hello.Reverse()): {string.Join("", hello.Reverse())}"); // olleh
+            Console.WriteLine($"hello.ToUpper(): {hello.ToUpper()}"); // HELLO
+            Console.WriteLine($"hello.ToLower(): {hello.ToLower()}"); // hello
+            Console.WriteLine($"hello.Contains(\"lo\"): {hello.Contains("lo")}"); // True
+            Console.WriteLine($"hello.Replace('l', 'L'): {hello.Replace('l', 'L')} // oldValue, newValue (value = char/string)"); // heLLo
+            Console.WriteLine("\n");
+
+            string __hello__ = "  hello  ";
+            Console.WriteLine($"__hello__: {__hello__}"); // __hello__
+            Console.WriteLine($"__hello__.TrimStart(): {__hello__.TrimStart()}"); // hello__
+            Console.WriteLine($"__hello__.TrimEnd(): {__hello__.TrimEnd()}"); // __hello
+            Console.WriteLine($"__hello__.Trim(): {__hello__.Trim()}"); // hello
+            Console.WriteLine("\n");
+
+            string fruitsStr = "apples,banana,oranges";
+            Console.WriteLine($"fruitsArr: {fruitsStr}"); // apples,banana,oranges
+            string[] fruitsArr = fruitsStr.Split(',');
+            Console.WriteLine($"fruitsArr.Length: {fruitsArr.Length}"); // 3
+            string fruitsArrToStr = string.Join("--", fruitsArr);
+            Console.WriteLine($"fruitsArrToStr: {fruitsArrToStr}"); // apples--banana--oranges
+            Console.WriteLine("\n");
+
+            Console.WriteLine("The Unicode value of '{0}' is {1}", 'A', (int)'A');
+            char zero = '0'; char nine = '9';
+            char A = 'A'; char Z = 'Z';
+            char a = 'a'; char z = 'z';
+            Console.WriteLine($"(int)0-(int)9: {(int)zero}-{(int)nine}"); // 48-57
+            Console.WriteLine($"(char)48-(char)57: {(char)48}-{(char)57}"); // 0-9
+            Console.WriteLine($"(int)A-(int)Z: {(int)A}-{(int)Z}"); // 65-90
+            Console.WriteLine($"(char)65-(char)90: {(char)65}-{(char)90}"); // A-Z
+            Console.WriteLine($"(int)a-(int)z: {(int)a}-{(int)z}"); // 97-122
+            Console.WriteLine($"(char)97-(char)122: {(char)97}-{(char)122}"); // a-z
+            // (char)(91): [
+            // (char)(92): \
+            // (char)(93): ]
+            // (char)(94): ^
+            // (char)(95): _
+            // (char)(96): `
+            for (int unicode = 91; unicode < 97; unicode++)
+            {
+                Console.WriteLine($"(char)({unicode}): {(char)(unicode)}");
+            }
+            Console.WriteLine("\n");
+
+            Console.WriteLine($"char.IsLetter('a') : {char.IsLetter('a')}"); // True
+            Console.WriteLine($"char.IsLower('a') : {char.IsLower('a')}"); //  True
+            Console.WriteLine($"char.IsUpper('a') : {char.IsUpper('a')}"); // False
+            Console.WriteLine($"char.IsDigit('5'): {char.IsDigit('5')}"); // True
+            Console.WriteLine($"char.IsDigit('½'): {char.IsDigit('½')}"); // False
+            Console.WriteLine($"char.IsNumber('5'): {char.IsNumber('5')}"); // True
+            Console.WriteLine($"char.IsNumber('½'): {char.IsNumber('½')}"); // True
         }
 
         private static void TypeConversions()

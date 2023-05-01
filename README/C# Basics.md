@@ -4,6 +4,7 @@ Overview:
 - [Built-in types](#Built-in-types)
 - [Nullable types](#Nullable-types)
 - [Type converstions](#Type-conversions)
+- [Boxing unboxing](#Boxing-unboxing)
 - [Common operators](#Common-operators)
 - [Conditional statements](#Conditional-statements)
 - [Loops](#Loops)
@@ -103,6 +104,22 @@ Overview:
     Console.WriteLine(tryParseSuccess3); // false
     Console.WriteLine(intFromStrTryParse3); // 0
     ```
+
+---
+
+## Boxing unboxing
+- Boxing and unboxing in C# are operations that are used to convert between value types and reference types.
+  - Boxing: process of converting a value type to an object reference type. This is necessary when a value type needs to be treated like a reference type, such as when storing it in a collection that requires all elements to be objects. When a value type is boxed, a new object is allocated on the heap to hold the value, and a reference to this object is returned.
+  - Unboxing: process of converting an object reference type to a value type. This is necessary when retrieving a value type from a collection or other object that stores it as an object reference. When unboxing, the object reference is checked to make sure it contains a value of the correct type, and then the value is extracted from the object and returned.
+- Both boxing and unboxing incur a performance cost, as they involve copying data and allocating memory on the heap. Therefore, it's generally best to avoid unnecessary boxing and unboxing operations when possible, such as by using generic collections like List<T> that avoid the need for boxing and unboxing.
+- Example
+  - Boxing and unboxing can happen in your C# code when you work with value types (such as int, float, double, etc.) in a context where a reference type is expected. For example, if you add an int value to an ArrayList (which is a reference type), the int value will be boxed into an object and stored on the heap. When you later retrieve the value from the ArrayList, it will be unboxed back into an int value.
+  ```
+  int myInt = 42;
+  object myObj = myInt; // Boxing happens here
+  int myOtherInt = (int)myObj; // Unboxing happens here
+  ```
+- boxing and unboxing are related to type conversion in C#. Boxing converts a value type to an object type (a reference type), and unboxing converts the object type back to the original value type. This can be seen as a type conversion from a value type to a reference type and vice versa
 
 ---
 
