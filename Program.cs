@@ -12,7 +12,7 @@ internal class Program
         Algorithms
     }
 
-    private static Area area = Area.Basics;
+    private static Area area = Area.Algorithms;
 
     private static void Main(string[] args)
     {
@@ -29,7 +29,7 @@ internal class Program
                 OOP.Start();
                 break;
             case Area.Algorithms:
-                OOP.Start();
+                Algorithms.Start();
                 break;
             default:
                 Console.WriteLine("Please update `area` parameter.");
