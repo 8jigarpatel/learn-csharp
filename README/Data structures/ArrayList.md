@@ -19,6 +19,7 @@
 - requires boxing and unboxing operations when storing and retrieving value types, which can impact performance.
 - Can be slower than Array for certain operations.
 - Can lead to `System.ArgumentOutOfRangeException` exceptions when performing insert/update/removeAt operations at invalid index (invalid = negative OR beyond size of collection).
+- Can trigger boxing unboxing, which is performance intensive and should be avoided. E.g., storing an int in an ArrayList converts int (value type) to object (reference type) - boxing. And retrieving the same will perform a conversion in the other way, from object (reference type) to int (value type)
 
 ## C# Syntax:
 ```

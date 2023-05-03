@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 
 namespace learn_csharp
 {
@@ -8,22 +11,46 @@ namespace learn_csharp
         enum SubArea
         {
             Undefined,
-            Arrays,
-            ArrayLists
+            Array,
+            ArrayList,
+            Dictionary,
+            HashSet,
+            Hashtable,
+            List,
+            Queue,
+            Stack
         }
 
-        private static SubArea subArea = SubArea.ArrayLists;
+        private static SubArea subArea = SubArea.HashSet;
 
         public static void Start()
         {
             Console.WriteLine("Running: {0}\n", subArea);
             switch (subArea)
             {
-                case SubArea.Arrays:
+                case SubArea.Array:
                     Arrays();
                     break;
-                case SubArea.ArrayLists:
+                case SubArea.ArrayList:
                     ArrayLists();
+                    break;
+                case SubArea.Dictionary:
+                    Dictionary();
+                    break;
+                case SubArea.HashSet:
+                    HashSet();
+                    break;
+                case SubArea.Hashtable:
+                    Hashtable();
+                    break;
+                case SubArea.List:
+                    List();
+                    break;
+                case SubArea.Queue:
+                    Queue();
+                    break;
+                case SubArea.Stack:
+                    Stack();
                     break;
                 default:
                     Console.WriteLine("Invalid `{0}` selected.", nameof(subArea));
@@ -189,6 +216,126 @@ namespace learn_csharp
 
             myArrayList.Clear(); // removes all elements from the ArrayList
             Console.WriteLine("myArrayList.Count (after clearing): " + myArrayList.Count); // 0
+        }
+
+        private static void Dictionary()
+        {
+            Dictionary<int, string> myDictionary = new Dictionary<int, string>();
+            // add
+            myDictionary.Add(1, "One");
+            // myDictionary.Add(1, "One"); // System.ArgumentException: 'An item with the same key has already been added. Key: 1'
+            myDictionary.Add(2, "Two");
+            myDictionary.Add(3, "Three");
+
+            // access/update - existing
+            Console.WriteLine($"myDictionary[1]: {myDictionary[1]}"); // One
+            myDictionary[1] = "NewOne";
+            Console.WriteLine($"myDictionary[1]: {myDictionary[1]}"); // NewOne
+
+            // access non-existing key
+            // Console.WriteLine($"myDictionary[7]: {myDictionary[7]}"); // System.Collections.Generic.KeyNotFoundException: 'The given key '7' was not present in the dictionary.'
+
+            // access/update new
+            myDictionary[7] = "Seven";
+            Console.WriteLine($"myDictionary[7]: {myDictionary[7]}"); // Seven
+
+            // ContainsKey/ContainsValue - check if key-value pair exists using key or value
+            Console.WriteLine($"myDictionary.ContainsKey(7): {myDictionary.ContainsKey(7)}"); // True
+            Console.WriteLine($"myDictionary.ContainsValue(\"Seven\"): {myDictionary.ContainsValue("Seven")}"); // True
+
+            // Count
+            Console.WriteLine($"myDictionary.Count: {myDictionary.Count}"); // 4
+            myDictionary.Remove(7); // existing
+            myDictionary.Remove(77); // non-existing, does nothing
+            Console.WriteLine($"myDictionary.Count: {myDictionary.Count}"); // 3
+
+            // foreach record(KeyValuePair)
+            foreach (KeyValuePair<int, string> pair in myDictionary)
+            {
+                Console.WriteLine($"{pair.Key} - {pair.Value}");
+            }
+            // 1 - NewOne
+            // 2 - Two
+            // 3 - Three
+        }
+
+        private static void HashSet()
+        {
+            // Create an empty HashSet of integers
+            HashSet<int> hset1 = new HashSet<int>();
+            hset1.Add(0);
+            hset1.Add(5);
+            hset1.Add(10);
+            hset1.Add(15);
+            Console.WriteLine($"hset1.Count: {hset1.Count}"); // 4
+            Console.WriteLine($"hset1.Contains(20): {hset1.Contains(20)}"); // False
+            hset1.Remove(20); // remove non-existing element, no error, does nothing
+            Console.WriteLine($"hset1.Contains(15): {hset1.Contains(15)}"); // True
+            hset1.Remove(15); // remove existing element
+            Console.WriteLine($"hset1.Contains(15): {hset1.Contains(15)}"); // False
+            Console.WriteLine($"hset1.Count: {hset1.Count}"); // 3
+            // hset1 - 0, 5, 10
+            Console.WriteLine("\n");
+
+            int[] arr2 = new int[] { 10, 10, 15, 20, 20, 25};
+            Console.WriteLine($"arr2.Length: {arr2.Length}"); // 6
+            HashSet<int> hset2 = new HashSet<int>(arr2); // create HashSet from an array of int
+            Console.WriteLine($"hset2.Count: {hset2.Count}"); // 4, because duplicates from array were discarded when HashSet was created from the array
+            Console.WriteLine("\n");
+
+            Console.WriteLine("Set Operations:");
+
+            Console.WriteLine($"hset1 initial: {string.Join(",", hset1)}"); // 0,5,10
+            Console.WriteLine($"hset2 initial: {string.Join(",", hset2)}"); // 10,15,20,25
+
+            hset1.UnionWith(hset2);
+            Console.WriteLine($"hset1 after `hset1.UnionWith(hset2);`: {string.Join(",", hset1)}"); // 0,5,10,15,20,25
+            Console.WriteLine($"hset2 after `hset1.UnionWith(hset2);`: {string.Join(",", hset2)}"); // 10,15,20,25
+
+            hset1.IntersectWith(hset2);
+            Console.WriteLine($"hset1 after `hset1.IntersectWith(hset2);`: {string.Join(",", hset1)}"); // 10,15,20,25
+            Console.WriteLine($"hset2 after `hset1.IntersectWith(hset2);`: {string.Join(",", hset2)}"); // 10,15,20,25
+        }
+
+        private static void Hashtable()
+        {
+            Hashtable htable = new Hashtable();
+            htable.Add(1, "One");
+            htable.Add("1", 1);
+
+            Console.WriteLine($"htable.Count: {htable.Count}"); // 2
+            Console.WriteLine($"htable[1]: {htable[1]}"); // One
+            Console.WriteLine($"htable[\"1\"]: {htable["1"]}"); // 1
+            Console.WriteLine($"htable[\"blah\"]: {htable["blah"]}"); // null
+
+            // htable.Add(1, "OneOne"); // System.ArgumentException: 'Item has already been added. Key in dictionary: '1'  Key being added: '1''
+
+            htable[1] = "NewOne"; // access/update existing
+            Console.WriteLine($"htable[1]: {htable[1]}"); // NewOne
+
+            htable[105] = "One05"; // add new
+            Console.WriteLine($"htable[105]: {htable[105]}"); // One05
+
+            htable.Remove(1);
+            htable.Add(1, "OneOne");
+            Console.WriteLine($"htable[1]: {htable[1]}"); // OneOne
+
+            htable.Remove(11); // non-existing key, does nothing
+
+            Console.WriteLine($"htable.ContainsKey(1): {htable.ContainsKey(1)}"); // True
+            Console.WriteLine($"htable.ContainsValue(11): {htable.ContainsValue(11)}"); // False
+        }
+
+        private static void List()
+        {
+        }
+
+        private static void Queue()
+        {
+        }
+
+        private static void Stack()
+        {
         }
     }
 }
