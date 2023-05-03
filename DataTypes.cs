@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
 
 namespace learn_csharp
 {
@@ -21,7 +19,7 @@ namespace learn_csharp
             Stack
         }
 
-        private static SubArea subArea = SubArea.HashSet;
+        private static SubArea subArea = SubArea.List;
 
         public static void Start()
         {
@@ -328,6 +326,39 @@ namespace learn_csharp
 
         private static void List()
         {
+            // Create a new list of integers, and add numbers
+            List<int> numbers = new List<int>();
+            numbers.Add(1);
+            numbers.Add(3);
+            numbers.Add(2);
+            numbers.Add(4);
+
+            Console.WriteLine($"numbers: {string.Join(", ", numbers)}"); // 1, 3, 2, 4
+            Console.WriteLine($"numbers.Count: {numbers.Count}"); // 4
+            Console.WriteLine($"numbers.Count: {numbers.Contains(5)}"); // False
+            Console.WriteLine($"numbers.IndexOf(4): {numbers.IndexOf(4)}"); // 3
+
+            numbers.Add(5);
+            Console.WriteLine($"numbers after `numbers.Add(5);`: {string.Join(", ", numbers)}"); // 1, 3, 2, 4, 5
+            numbers[4] = 55;
+            Console.WriteLine($"numbers after `numbers[4] = 55;`: {string.Join(", ", numbers)}"); // 1, 3, 2, 4, 55
+            // numbers.Insert(10,10); // System.ArgumentOutOfRangeException: 'Index must be within the bounds of the List. (Parameter 'index')'
+            numbers.Insert(5,6);
+            Console.WriteLine($"numbers after `numbers.Insert(5,6);`: {string.Join(", ", numbers)}"); // 1, 3, 2, 4, 55, 6
+
+            // Remove / RemoveAt
+            numbers.Remove(55);
+            Console.WriteLine($"numbers after `numbers.Remove(55);`: {string.Join(", ", numbers)}"); // 1, 3, 2, 4, 6
+            numbers.RemoveAt(4);
+            Console.WriteLine($"numbers after `numbers.RemoveAt(4);`: {string.Join(", ", numbers)}"); // 1, 3, 2, 4
+
+            // Sort the list
+            numbers.Sort();
+            Console.WriteLine($"numbers after `numbers.Sort();`: {string.Join(", ", numbers)}"); // 1, 2, 3, 4
+
+            // Clear the list
+            numbers.Clear();
+            Console.WriteLine($"numbers after `numbers.Clear();`: {string.Join(", ", numbers)}"); //
         }
 
         private static void Queue()
