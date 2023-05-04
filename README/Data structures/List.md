@@ -1,6 +1,6 @@
 # List
 
-- Collection of elements of the same type, stored in contiguous memory locations, and accessible by an index (just like array!)
+- Collection of elements of the same type, accessible by an index (just like array!)
 - provides dynamic resizing, efficient element manipulation, and a variety of useful methods to manipulate and query the elements.
   
 ## Terminology:

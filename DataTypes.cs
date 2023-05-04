@@ -19,7 +19,7 @@ namespace learn_csharp
             Stack
         }
 
-        private static SubArea subArea = SubArea.List;
+        private static SubArea subArea = SubArea.Queue;
 
         public static void Start()
         {
@@ -363,10 +363,68 @@ namespace learn_csharp
 
         private static void Queue()
         {
+            // Non-generic
+            Queue myNonGenQueue = new Queue();
+
+            // Generic 
+            Queue<int> myQueue = new Queue<int>();
+            myQueue.Enqueue(1);
+            myQueue.Enqueue(2);
+            myQueue.Enqueue(3);
+            myQueue.Enqueue(4);
+            myQueue.Enqueue(5);
+
+            Console.WriteLine("foreach (var q in myQueue) {...}");
+            foreach (var q in myQueue)
+            {
+                Console.WriteLine(q);
+            }
+
+            Console.WriteLine($"myQueue.Count: {myQueue.Count}");
+
+            Console.WriteLine($"myQueue.Peek(): {myQueue.Peek()}");
+            Console.WriteLine($"myQueue.Pop(): {myQueue.Dequeue()}");
+            Console.WriteLine($"myQueue.Peek(): {myQueue.Peek()}");
+
+            Console.WriteLine($"myQueue.Count: {myQueue.Count}");
+            Console.WriteLine($"myQueue.Contains(5): {myQueue.Contains(5)}");
+            Console.WriteLine($"myQueue.Contains(55): {myQueue.Contains(55)}");
+
+            myQueue.Clear();
+            Console.WriteLine($"myQueue.Count after `myQueue.Clear();`: {myQueue.Count}");
         }
 
         private static void Stack()
         {
+            Stack myStack = new Stack();
+            Stack<int> myStack2 = new Stack<int>();
+            myStack.Push("START");
+            myStack.Push(1);
+            myStack.Push(true);
+            myStack.Push("Three");
+            myStack.Push(4);
+            myStack.Push(null);
+            myStack.Push(5);
+            myStack.Push("END");
+
+            Console.WriteLine("foreach (var s in myStack) {...}");
+            foreach (var s in myStack)
+            {
+                Console.WriteLine(s);
+            }
+
+            Console.WriteLine($"myStack.Count: {myStack.Count}");
+
+            Console.WriteLine($"myStack.Peek(): {myStack.Peek()}");
+            Console.WriteLine($"myStack.Pop(): {myStack.Pop()}");
+            Console.WriteLine($"myStack.Peek(): {myStack.Peek()}");
+
+            Console.WriteLine($"myStack.Count: {myStack.Count}");
+            Console.WriteLine($"myStack.Contains(5): {myStack.Contains(5)}");
+            Console.WriteLine($"myStack.Contains(\"Five\"): {myStack.Contains("Five")}");
+
+            myStack.Clear();
+            Console.WriteLine($"myStack.Count after `myStack.Clear();`: {myStack.Count}");
         }
     }
 }
