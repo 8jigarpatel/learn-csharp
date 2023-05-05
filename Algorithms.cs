@@ -10,10 +10,11 @@ namespace learn_csharp
             Undefined,
             LinearAndBinarySearch,
             BubbleSort,
-            SelectionSort
+            SelectionSort,
+            InsertionSort
         }
 
-        private static SubArea subArea = SubArea.BubbleSort;
+        private static SubArea subArea = SubArea.InsertionSort;
 
         public static void Start()
         {
@@ -26,13 +27,19 @@ namespace learn_csharp
                 case SubArea.BubbleSort:
                     BubbleSort();
                     break;
+                case SubArea.SelectionSort:
+                    SelectionSort();
+                    break;
+                case SubArea.InsertionSort:
+                    InsertionSort();
+                    break;
                 default:
                     Console.WriteLine("Invalid `{0}` selected.", nameof(subArea));
                     break;
             };
         }
 
-        #region 
+        #region LinearAndBinarySearch
         private static void LinearAndBinarySearch()
         {
             int[] numbers1 = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
@@ -108,33 +115,85 @@ namespace learn_csharp
 
         private static void BubbleSortArray(int[] arr)
         {
-            string strArr = string.Join(", ", arr);
-            Console.WriteLine($"START BubbleSort: {strArr}");
-            int iPassCount = 0;
-            int jPassCount = 0;
+            int[] inputArr = new int[arr.Length];
+            arr.CopyTo(inputArr, 0);
 
-            for (int i = 0; i < arr.Length - 1; i++)
+            // 5 4 3 2 1
+            int countMain = 0;
+            int countSub = 0;
+            for (int i = 0; i < arr.Length - 1; i++) // if length is 5, iterate 4 times (i: 0, 1, 2, 3)
             {
+                countMain++;
                 bool swapped = false;
-                iPassCount++;
-                for (int j = 1; j < arr.Length - i; j++)
+                for (int j = 1; j < arr.Length - i; j++) // start at 1 (to compare element at 1 and 0, and go until length - i (depending on which pass)
                 {
-                    jPassCount++;
+                    countSub++;
                     if (arr[j] < arr[j - 1])
                     {
+                        int temp = arr[j];
+                        arr[j] = arr[j - 1];
+                        arr[j - 1] = temp;
                         swapped = true;
-                        int temp = arr[j - 1];
-                        arr[j - 1] = arr[j];
-                        arr[j] = temp;
                     }
                 }
-
-                if (!swapped)
+                if (!swapped) // array is already sorted
                 {
                     break;
                 }
             }
-            Console.WriteLine($"END BubbleSort, it used {iPassCount}-{jPassCount} passes, sorted array: {string.Join(", ", arr)}.");
+            Console.WriteLine($"Array ({string.Join(", ", inputArr)}) sorted in {countMain}-{countSub} passes to: {string.Join(", ", arr)}");
+        }
+        #endregion
+
+        #region Selection sort
+        private static void SelectionSort()
+        {
+            int[] arr1 = { 1, 2, 3, 4, 5 };
+            SelectionSortArray(arr1);
+
+            int[] arr5 = { 5, 1, 2, 3, 4 };
+            SelectionSortArray(arr5);
+        }
+
+        private static void SelectionSortArray(int[] nums)
+        {
+            int[] inputArr = new int[nums.Length];
+            nums.CopyTo(inputArr, 0);
+
+            int passCount = 0;
+            for (int i = 0; i < nums.Length - 1; i++)
+            {
+                passCount++;
+                int maxIndex = SelectionSortGetMaxIndex(nums, 0, nums.Length - 1 - i);
+                if (nums[maxIndex] > nums[nums.Length - 1 - i])
+                {
+                    int temp = nums[maxIndex];
+                    nums[maxIndex] = nums[nums.Length - 1 - i];
+                    nums[nums.Length - 1 - i] = temp;
+                }
+            }
+
+            Console.WriteLine($"Array ({string.Join(", ", inputArr)}) sorted in {passCount} passes: {string.Join(", ", nums)}");
+        }
+
+        private static int SelectionSortGetMaxIndex(int[] nums, int start, int end)
+        {
+            int maxIndex = start;
+            for (int i = start; i <= end; i++)
+            {
+                if (nums[i] > nums[maxIndex])
+                {
+                    maxIndex = i;
+                }
+            }
+            return maxIndex;
+        }
+        #endregion
+
+        #region InsertionSort
+        private static void InsertionSort()
+        {
+
         }
         #endregion
     }
