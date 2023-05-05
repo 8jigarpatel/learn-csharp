@@ -193,7 +193,75 @@ namespace learn_csharp
         #region InsertionSort
         private static void InsertionSort()
         {
+            int[] arr1 = { 7, 3, 1, 2, 4, 6 };
+            int[] arr1Copy = new int[arr1.Length];
+            arr1.CopyTo(arr1Copy, 0);
+            InsertionSortArray(arr1);
+            InsertionSortArray2(arr1Copy);
 
+            int[] arr2 = { -7, 3, -1, 2, 4, -6 };
+            int[] arr2Copy = new int[arr1.Length];
+            arr2.CopyTo(arr2Copy, 0);
+            InsertionSortArray(arr2);
+            InsertionSortArray2(arr2Copy);
+        }
+
+        private static void InsertionSortArray(int[] array)
+        {
+            int[] originalArr = new int[array.Length];
+            array.CopyTo(originalArr, 0);
+
+            int passCount = 0;
+            for (int i = 1; i < array.Length; i++)
+            {
+                int j = i - 1;
+                while (j >= 0 && array[j] > array[j + 1])
+                {
+                    passCount++;
+                    int temp = array[j];
+                    array[j] = array[j + 1];
+                    array[j + 1] = temp;
+                    j--;
+                }
+            }
+            Console.WriteLine($"Array ({string.Join(", ", originalArr)}) sorted in {passCount} passes: {string.Join(", ", array)}");
+        }
+
+        private static void InsertionSortArray2(int[] nums)
+        {
+            int[] originalNums = new int[nums.Length];
+            nums.CopyTo(originalNums, 0);
+
+            int passCount = 0;
+            for (int i = 0; i < nums.Length - 1; i++)
+            {
+                //int j = i + 1;
+                //while (j > 0 && nums[j] < nums[j-1])
+                //{
+                //    passCount++;
+                //    int temp = nums[j];
+                //    nums[j] = nums[j - 1];
+                //    nums[j - 1] = temp;
+                //    j--;
+                //}
+
+                for (int j = i+1; j > 0; j--)
+                {
+                    if (nums[j] < nums[j-1])
+                    {
+                        passCount++;
+                        int temp = nums[j];
+                        nums[j] = nums[j - 1];
+                        nums[j - 1] = temp;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            Console.WriteLine($"Array ({string.Join(", ", originalNums)}) sorted in {passCount} passes: {string.Join(", ", nums)}");
         }
         #endregion
     }
