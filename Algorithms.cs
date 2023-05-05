@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace learn_csharp
 {
@@ -7,10 +8,12 @@ namespace learn_csharp
         enum SubArea
         {
             Undefined,
-            LinearAndBinarySearch
+            LinearAndBinarySearch,
+            BubbleSort,
+            SelectionSort
         }
 
-        private static SubArea subArea = SubArea.LinearAndBinarySearch;
+        private static SubArea subArea = SubArea.BubbleSort;
 
         public static void Start()
         {
@@ -20,12 +23,16 @@ namespace learn_csharp
                 case SubArea.LinearAndBinarySearch:
                     LinearAndBinarySearch();
                     break;
+                case SubArea.BubbleSort:
+                    BubbleSort();
+                    break;
                 default:
                     Console.WriteLine("Invalid `{0}` selected.", nameof(subArea));
                     break;
             };
         }
 
+        #region 
         private static void LinearAndBinarySearch()
         {
             int[] numbers1 = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
@@ -87,5 +94,48 @@ namespace learn_csharp
             }
             return -1;
         }
+        #endregion
+
+        #region Bubble Sort
+        private static void BubbleSort()
+        {
+            int[] arr1 = { 1, 2, 3, 4, 5 };
+            BubbleSortArray(arr1);
+
+            int[] arr2 = { 5, 4, 3, 2, 1 };
+            BubbleSortArray(arr2);
+        }
+
+        private static void BubbleSortArray(int[] arr)
+        {
+            string strArr = string.Join(", ", arr);
+            Console.WriteLine($"START BubbleSort: {strArr}");
+            int iPassCount = 0;
+            int jPassCount = 0;
+
+            for (int i = 0; i < arr.Length - 1; i++)
+            {
+                bool swapped = false;
+                iPassCount++;
+                for (int j = 1; j < arr.Length - i; j++)
+                {
+                    jPassCount++;
+                    if (arr[j] < arr[j - 1])
+                    {
+                        swapped = true;
+                        int temp = arr[j - 1];
+                        arr[j - 1] = arr[j];
+                        arr[j] = temp;
+                    }
+                }
+
+                if (!swapped)
+                {
+                    break;
+                }
+            }
+            Console.WriteLine($"END BubbleSort, it used {iPassCount}-{jPassCount} passes, sorted array: {string.Join(", ", arr)}.");
+        }
+        #endregion
     }
 }
