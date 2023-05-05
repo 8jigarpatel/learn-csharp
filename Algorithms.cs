@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
 
 namespace learn_csharp
 {
@@ -11,10 +15,11 @@ namespace learn_csharp
             LinearAndBinarySearch,
             BubbleSort,
             SelectionSort,
-            InsertionSort
+            InsertionSort,
+            CyclicSort
         }
 
-        private static SubArea subArea = SubArea.InsertionSort;
+        private static SubArea subArea = SubArea.CyclicSort;
 
         public static void Start()
         {
@@ -32,6 +37,9 @@ namespace learn_csharp
                     break;
                 case SubArea.InsertionSort:
                     InsertionSort();
+                    break;
+                case SubArea.CyclicSort:
+                    CyclicSort();
                     break;
                 default:
                     Console.WriteLine("Invalid `{0}` selected.", nameof(subArea));
@@ -245,9 +253,9 @@ namespace learn_csharp
                 //    j--;
                 //}
 
-                for (int j = i+1; j > 0; j--)
+                for (int j = i + 1; j > 0; j--)
                 {
-                    if (nums[j] < nums[j-1])
+                    if (nums[j] < nums[j - 1])
                     {
                         passCount++;
                         int temp = nums[j];
@@ -262,6 +270,225 @@ namespace learn_csharp
             }
 
             Console.WriteLine($"Array ({string.Join(", ", originalNums)}) sorted in {passCount} passes: {string.Join(", ", nums)}");
+        }
+        #endregion
+
+        #region CyclicSort
+        private static void CyclicSort()
+        {
+            CyclicSortSmallestZero(new int[] { 3, 5, 0, 2, 4, 1, 6 });
+            CyclicSortSmallestZero(new int[] { 3, 0, 1, 2, 4 });
+
+            Console.WriteLine($"-- -- -- -- --");
+
+            CyclicSortSmallestOne(new int[] { 3, 5, 7, 2, 4, 1, 6 });
+            CyclicSortSmallestOne(new int[] { 3, 5, 1, 2, 4 });
+
+            Console.WriteLine($"-- -- -- -- --");
+
+            SmartCyclicSortArray(new int[] { 3, 5, 0, 2, 4, 1, 6 });
+            SmartCyclicSortArray(new int[] { 3, 4, 1, -2, -1, 0, 2 });
+
+            Console.WriteLine($"-- -- -- -- --");
+
+            CyclicSortArrayWithFirst(new int[] { 1, 4, 3, 6, 2, 5 }, 1);
+            CyclicSortArrayWithFirst(new int[] { 0, 3, 1, 2, 4 }, 0);
+            CyclicSortArrayWithFirst(new int[] { 0, 3, 1, 2, -1 }, -1);
+            CyclicSortArrayWithFirst(new int[] { 0, 3, 1, 2, -1, -2, -5, -3, -4, 9, 6, 8, 5, 7, 4 }, -5);
+
+            Console.WriteLine($"-- -- -- -- --");
+
+            Console.WriteLine(MissingNumber(new int[] { 0, 1, 5, 4, 2 }));
+            Console.WriteLine(MissingNumber(new int[] { 0, 1, 8, 4, 2, 6, 3, 9, 5 }));
+            Console.WriteLine(MissingNumber(new int[] { 5, 1, 0, 2, 4 }));
+            Console.WriteLine(MissingNumber(new int[] { 4, 0, 2, 1 }));
+
+            Console.WriteLine($"-- -- -- -- --");
+
+            LC448(new int[] { 3, 2, 3, 4, 1, 2, 7, 8 });
+
+            LC448(new int[] { 1, 5, 4, 2, 7, 9, 8, 9, 9 });
+        }
+
+        private static void CyclicSortSmallestZero(int[] numbers)
+        {
+            int[] oNumbers = new int[numbers.Length];
+            numbers.CopyTo(oNumbers, 0);
+
+            int i = 0;
+            while (i < numbers.Length)
+            {
+                if (numbers[i] != i)
+                {
+                    //int keep = numbers[numbers[i]];
+                    //numbers[numbers[i]] = numbers[i];
+                    //numbers[i] = keep;
+
+                    int keep = numbers[i];
+                    numbers[i] = numbers[numbers[i]];
+                    numbers[keep] = keep;
+                    continue;
+                }
+                i++;
+            }
+
+            Console.WriteLine($"CyclicSortSmallestZero({string.Join(",", oNumbers)}): {string.Join(",", numbers)}");
+        }
+
+        private static void CyclicSortSmallestOne(int[] numbers)
+        {
+            int[] oNumbers = new int[numbers.Length];
+            numbers.CopyTo(oNumbers, 0);
+
+            // 3 4 1 2
+            // 1 4 3 2
+            int i = 0;
+            while (i < numbers.Length)
+            {
+                if (numbers[i] != i + 1)
+                {
+                    // OPTION 1
+                    // keep other, update other, update current
+
+                    //int keep = numbers[numbers[i] - 1];
+                    //numbers[numbers[i] - 1] = numbers[i];
+                    //numbers[i] = keep;
+
+                    // OPTION 2
+                    // keep current, update current, update other
+                    int keep = numbers[i];
+                    numbers[i] = numbers[numbers[i] - 1];
+                    numbers[keep - 1] = keep;
+                    continue;
+                }
+                i++;
+            }
+
+            Console.WriteLine($"CyclicSortSmallestOne ({string.Join(",", oNumbers)}): {string.Join(",", numbers)}");
+        }
+
+        private static void SmartCyclicSortArray(int[] arr)
+        {
+            int[] oArr = new int[arr.Length];
+            arr.CopyTo(oArr, 0);
+
+            int first = int.MaxValue;
+            foreach (int n in arr)
+            {
+                if (n < first) { first = n; }
+            }
+
+            // 3, 4, 1, 6, 5, 7, 2
+            int passCount = 0;
+            int i = 0;
+            while (i < arr.Length)
+            {
+                passCount++;
+                if (arr[i] != i + first)
+                {
+                    //int temp = arr[i];
+                    //arr[i] = arr[arr[i] - first];
+                    //arr[temp - first] = temp;
+
+                    int temp = arr[arr[i] - first];
+                    arr[arr[i] - first] = arr[i];
+                    arr[i] = temp;
+                    continue;
+                }
+                i++;
+            }
+            Console.WriteLine($"SmartCyclicSortArray ({string.Join(", ", oArr)}) sorted in {passCount} passes: {string.Join(", ", arr)}");
+        }
+
+        private static void CyclicSortArrayWithFirst(int[] arr, int first)
+        {
+            int i = 0;
+            while (i < arr.Length)
+            {
+                if (arr[i] != i + first)
+                {
+                    int temp = arr[arr[i] - first];
+                    arr[arr[i] - first] = arr[i];
+                    arr[i] = temp;
+                    continue;
+                }
+                i++;
+            }
+            Console.WriteLine($"Sorted: {string.Join(",", arr)}");
+        }
+
+        private static int MissingNumber(int[] nums)
+        {
+            int i = 0;
+            while (i < nums.Length)
+            {
+                // 1 3 0 2 4
+                if (nums[i] < nums.Length && nums[i] != i)
+                {
+                    int keep = nums[nums[i]]; // 3
+                    nums[nums[i]] = nums[i];
+                    nums[i] = keep;
+                    continue;
+                }
+                i++;
+            }
+
+            Console.WriteLine($"S: {string.Join(", ", nums)}");
+
+            for (int j = 0; j < nums.Length; j++)
+            {
+                if (nums[j] != j) { return j; }
+            }
+
+            return nums.Length;
+            //int i = 0;
+            //while (i < nums.Length)
+            //{
+            //    if (nums[i] < nums.Length && nums[i] != nums[nums[i]])
+            //    {
+            //        int temp = nums[nums[i]];
+            //        nums[nums[i]] = nums[i];
+            //        nums[i] = temp;
+            //        continue;
+            //    }
+            //    i++;
+            //}
+            //Console.WriteLine($"S: {string.Join(", ", nums)}");
+
+            //// 0 1 3 
+            //for (int z = 0; z < nums.Length; z++)
+            //{
+            //    if (nums[z] != z) { return z; }
+            //}
+            //return nums.Length;
+        }
+
+        private static List<int> LC448(int[] nums)
+        {
+            List<int> result = new List<int>();
+            int i = 0;
+            while (i < nums.Length)
+            {
+                //if (nums[i] != i + 1)
+                if (nums[i] != nums[nums[i] - 1])
+                {
+                    // 2 3 1 5 4
+                    int keep = nums[nums[i] - 1]; // 3
+                    nums[nums[i] - 1] = nums[i];
+                    nums[i] = keep;
+                    continue;
+                }
+                i++;
+            }
+            for (int j = 0; j < nums.Length; j++)
+            {
+                if (nums[j] != j+1)
+                {
+                    result.Add(j + 1);
+                }
+            }
+            Console.WriteLine($"LC448 Sort: {string.Join(", ", nums)}, and answer: {string.Join(", ", result)}");
+            return result;
         }
         #endregion
     }

@@ -8,3 +8,4 @@
 - Bubble Sort
 - Selection Sort
 - Insertion Sort
+- Cyclic Sort
