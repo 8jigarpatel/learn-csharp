@@ -306,7 +306,6 @@ namespace learn_csharp
             Console.WriteLine($"-- -- -- -- --");
 
             LC448(new int[] { 3, 2, 3, 4, 1, 2, 7, 8 });
-
             LC448(new int[] { 1, 5, 4, 2, 7, 9, 8, 9, 9 });
         }
 
@@ -469,7 +468,12 @@ namespace learn_csharp
             int i = 0;
             while (i < nums.Length)
             {
-                //if (nums[i] != i + 1)
+                // 3 5 2 1 4
+
+                // if (nums[i] != i + 1)
+                // - checks if current element has value that might not exist
+                // if (nums[i] != nums[nums[i] - 1])
+                // - checks if current element is at the right position
                 if (nums[i] != nums[nums[i] - 1])
                 {
                     // 2 3 1 5 4
@@ -482,12 +486,12 @@ namespace learn_csharp
             }
             for (int j = 0; j < nums.Length; j++)
             {
-                if (nums[j] != j+1)
+                if (nums[j] != j + 1)
                 {
                     result.Add(j + 1);
                 }
             }
-            Console.WriteLine($"LC448 Sort: {string.Join(", ", nums)}, and answer: {string.Join(", ", result)}");
+            Console.WriteLine($"LC448 Sort: {string.Join(", ", nums)}; and answer is: {string.Join(", ", result)}");
             return result;
         }
         #endregion
