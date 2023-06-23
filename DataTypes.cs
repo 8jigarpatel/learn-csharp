@@ -16,10 +16,11 @@ namespace learn_csharp
             Hashtable,
             List,
             Queue,
+            PriorityQueue,
             Stack
         }
 
-        private static SubArea subArea = SubArea.Queue;
+        private static SubArea subArea = SubArea.PriorityQueue;
 
         public static void Start()
         {
@@ -46,6 +47,9 @@ namespace learn_csharp
                     break;
                 case SubArea.Queue:
                     Queue();
+                    break;
+                case SubArea.PriorityQueue:
+                    PriorityQueue();
                     break;
                 case SubArea.Stack:
                     Stack();
@@ -275,7 +279,7 @@ namespace learn_csharp
             // hset1 - 0, 5, 10
             Console.WriteLine("\n");
 
-            int[] arr2 = new int[] { 10, 10, 15, 20, 20, 25};
+            int[] arr2 = new int[] { 10, 10, 15, 20, 20, 25 };
             Console.WriteLine($"arr2.Length: {arr2.Length}"); // 6
             HashSet<int> hset2 = new HashSet<int>(arr2); // create HashSet from an array of int
             Console.WriteLine($"hset2.Count: {hset2.Count}"); // 4, because duplicates from array were discarded when HashSet was created from the array
@@ -343,7 +347,7 @@ namespace learn_csharp
             numbers[4] = 55;
             Console.WriteLine($"numbers after `numbers[4] = 55;`: {string.Join(", ", numbers)}"); // 1, 3, 2, 4, 55
             // numbers.Insert(10,10); // System.ArgumentOutOfRangeException: 'Index must be within the bounds of the List. (Parameter 'index')'
-            numbers.Insert(5,6);
+            numbers.Insert(5, 6);
             Console.WriteLine($"numbers after `numbers.Insert(5,6);`: {string.Join(", ", numbers)}"); // 1, 3, 2, 4, 55, 6
 
             // Remove / RemoveAt
@@ -392,6 +396,28 @@ namespace learn_csharp
 
             myQueue.Clear();
             Console.WriteLine($"myQueue.Count after `myQueue.Clear();`: {myQueue.Count}");
+        }
+
+        private static void PriorityQueue()
+        {
+            // 347. Top K Frequent Elements
+            int[] input = new int[] { 1, 2, 3, 1, 2, 1, 4, 5, 2, 6, 7, 2, 3, 2, 8, 2, 9 };
+            Dictionary<int, int> dict = new();
+            foreach (int i in input)
+            {
+                dict[i] = dict.GetValueOrDefault(i) + 1;
+            }
+
+            PriorityQueue<int, int> que = new PriorityQueue<int, int>(Comparer<int>.Create((a, b) => b - a));
+            foreach (KeyValuePair<int, int> pair in dict)
+            {
+                que.Enqueue(pair.Key, pair.Value);
+            }
+
+            while (que.Count > 0)
+            {
+                Console.WriteLine($"{que.Dequeue()}");
+            }
         }
 
         private static void Stack()
